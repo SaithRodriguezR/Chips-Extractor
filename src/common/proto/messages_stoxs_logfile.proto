@@ -1,0 +1,39 @@
+import "messages_robocup_ssl_detection.proto";
+import "messages_robocup_ssl_geometry.proto";
+import "messages_stoxs_datamodel.proto";
+import "referee.proto";
+
+message STOxs_LogfileFrame {
+  required uint32 nFrame                       	= 1;
+  optional string teamColor			= 2;  
+  optional string teamWay			= 3;
+  optional SSL_DetectionFrame detection0       	= 4;
+  optional SSL_DetectionFrame detection1       	= 5;
+  optional SSL_DetectionFrame detection2       	= 6;
+  optional SSL_DetectionFrame detection3       	= 7;
+  optional SSL_GeometryData geometry		= 8;
+  optional MMergedVision mergedVision		= 9;
+  optional double frameRate			= 10;
+  optional double visionLatency			= 11;
+  optional double visionThreadTime		= 12;
+  optional SSL_Referee referee                 	= 13;
+  optional MBallTracking ballTracking		= 14;
+  optional MRobotTracking stoxsTracking		= 15;
+  optional MRobotTracking opponentTracking	= 16;
+  optional MWorld world				= 17;
+  optional MAgentsInfo agentsInfo		= 18;
+  optional MPathPlanning pathPlanning		= 19;
+  optional double coreThreadTime		= 20;
+  optional MMotorCommands motorCommands		= 21;
+  optional MCommands commands			= 22;
+  optional MStatus status			= 23;
+  optional double commandThreadTime		= 24;
+  optional double plotter0			= 25; 
+  optional double plotter1			= 26;
+  optional double plotter2			= 27;
+  optional double plotter3			= 28;
+}
+
+message STOxs_Logfile {
+  repeated STOxs_LogfileFrame frame = 1;
+}

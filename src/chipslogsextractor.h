@@ -17,13 +17,15 @@ public:
 private:
     void process();
     STOxs_Logfile loadLog(QString filename);
-    void extractInfo(int n, STOxs_Logfile log, QString filename, int frame);
+    void extractInfo(int n, STOxs_Logfile log, QString filename, int frame, int frameList[], int *k);
     void saveLog();
     
 private:
-    QFile output;
+    QFile outputChip;
+    QFile outputNoChip;
     QString _currentFilename;
-    STOxs_Logfile _log;
+    STOxs_Logfile _logChip;
+    STOxs_Logfile _logNoChip;
 private slots:
 
 };

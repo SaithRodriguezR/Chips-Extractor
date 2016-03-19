@@ -211,9 +211,7 @@ namespace logsInfo
 					{QString("/STOxs-MRL-Friendly/STOxs-MRL3-Friendly"), 12276},
 					{QString("/STOxs-UBC-Friendly/STOxs-UBC1-Friendly"), 4222},
 					{QString("/STOxs-UBC-Friendly/STOxs-UBC1-Friendly"), 10301},
-					{QString("/STOxs-UBC-Friendly/STOxs-UBC2-Friendly"), 4010}	
-	
-	
+					{QString("/STOxs-UBC-Friendly/STOxs-UBC2-Friendly"), 4010}
     };
     
 }

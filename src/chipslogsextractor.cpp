@@ -5,8 +5,7 @@
 
 ChipsLogsExtractor::ChipsLogsExtractor()
 {
-    _log = new STOxs_Logfile();
-    _log->Clear();
+    _log.Clear();
     _currentFilename = QString("");
     output.setFileName(QString("output.txt"));
     output.open(QIODevice::WriteOnly);
@@ -23,21 +22,21 @@ ChipsLogsExtractor::~ChipsLogsExtractor()
 
 void ChipsLogsExtractor::process()
 {
-    STOxs_Logfile *log = new STOxs_Logfile();
-    for(int i=0; i<8; i++)
+    STOxs_Logfile log;
+    for(int i=0; i<logsInfo::logSize; i++)
     {
 	if(_currentFilename != logsInfo::logs[i].logFilename)
 	{
-	    log = loadLog(QString("../../Logs/") + logsInfo::logs[i].logFilename + QString(".log"));
+	    log = loadLog(QString("../../Logs/RoboCup2015") + logsInfo::logs[i].logFilename + QString(".log"));
 	    _currentFilename = logsInfo::logs[i].logFilename;
 	}
 	extractInfo(i, log, logsInfo::logs[i].logFilename, logsInfo::logs[i].frame);
     }
 }
 
-STOxs_Logfile* ChipsLogsExtractor::loadLog(QString filename)
+STOxs_Logfile ChipsLogsExtractor::loadLog(QString filename)
 {
-    STOxs_Logfile *log = new STOxs_Logfile();
+    STOxs_Logfile log;
     QString logHeader;
     QByteArray data;
     QFile file(filename);
@@ -48,20 +47,21 @@ STOxs_Logfile* ChipsLogsExtractor::loadLog(QString filename)
 	
 	if(logHeader == "STOxs_Logfile2")
 	{
-	    int nTotalBytes = file.size();
-	    int nBytes = 0;
+	    unsigned long nTotalBytes = file.size();
+	    unsigned long nBytes = 0;
 	    
-	    log->Clear();
+	    log.Clear();
 	    in >> data;
 	    while(!data.isEmpty())
 	    {
 		nBytes += data.size();
-		STOxs_LogfileFrame *frame = log->add_frame();
+		STOxs_LogfileFrame *frame = log.add_frame();
 		frame->ParseFromArray(data.data(), data.size());
 		in >> data;
 		printf("[%3d%c] Loading File %s\n", (int)(((double)(nBytes)/(double)(nTotalBytes))*100), 37, filename.toStdString().c_str());
 	    }
 	    printf("[%3d%c] Loading File %s\n", 100, 37, filename.toStdString().c_str());
+	    printf("File Loaded %d frames\n", log.frame_size());
 	    
 	}
 	else
@@ -69,6 +69,7 @@ STOxs_Logfile* ChipsLogsExtractor::loadLog(QString filename)
 	    printf("File %s: Format not supported!\n", filename.toStdString().c_str());
 	}
 	file.close();
+	data.clear();
     }
     else
     {
@@ -77,16 +78,16 @@ STOxs_Logfile* ChipsLogsExtractor::loadLog(QString filename)
     return log;
 }
 
-void ChipsLogsExtractor::extractInfo(int n, STOxs_Logfile *log, QString filename, int frame)
+void ChipsLogsExtractor::extractInfo(int n, STOxs_Logfile log, QString filename, int frame)
 {
     int initFrame = frame - logsInfo::nFramesAfter;
     int endFrame = frame + logsInfo::nFramesBefore;
     printf("Extracting info to %s: frames: %d to %d\n", filename.toStdString().c_str(), initFrame, endFrame);
     for(int i=initFrame; i<=endFrame; i++)
     {
-	_log->add_frame()->CopyFrom(log->frame(i));
+	_log.add_frame()->CopyFrom(log.frame(i));
 	QString str;
-	str.sprintf("%d %d %f %f %f\n", n, log->frame(i).balltracking().ball().enable(), log->frame(i).balltracking().ball().pos().x(), log->frame(i).balltracking().ball().pos().y(), log->frame(i).world().ball().speed());
+	str.sprintf("%d %d %f %f %f\n", n, log.frame(i).balltracking().ball().enable(), log.frame(i).balltracking().ball().pos().x(), log.frame(i).balltracking().ball().pos().y(), log.frame(i).world().ball().speed());
 	output.write(str.toStdString().c_str());
     }
 }
@@ -99,10 +100,10 @@ void ChipsLogsExtractor::saveLog()
     outputLogFile.open(QIODevice::WriteOnly);
     QDataStream out(&outputLogFile);
     out << QString("STOxs_Logfile2");
-    for(int i=0; i<_log->frame_size(); i++)
+    for(int i=0; i<_log.frame_size(); i++)
     {
-	data.resize(_log->frame(i).ByteSize());
-	_log->frame(i).SerializeToArray(data.data(), data.size());
+	data.resize(_log.frame(i).ByteSize());
+	_log.frame(i).SerializeToArray(data.data(), data.size());
 	out << data;
     }
     outputLogFile.close();	    

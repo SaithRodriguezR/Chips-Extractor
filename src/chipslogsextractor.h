@@ -16,14 +16,14 @@ public:
     virtual ~ChipsLogsExtractor();
 private:
     void process();
-    STOxs_Logfile *loadLog(QString filename);
-    void extractInfo(int n, STOxs_Logfile *log, QString filename, int frame);
+    STOxs_Logfile loadLog(QString filename);
+    void extractInfo(int n, STOxs_Logfile log, QString filename, int frame);
     void saveLog();
     
 private:
     QFile output;
     QString _currentFilename;
-    STOxs_Logfile *_log;
+    STOxs_Logfile _log;
 private slots:
 
 };

@@ -109,7 +109,7 @@ void ChipsLogsExtractor::extractInfo(int n, STOxs_Logfile log, QString filename,
 	randomFrame = rand()%log.frame_size();
 	if((randomFrame > logsInfo::nFramesAfter) && (randomFrame < log.frame_size()-logsInfo::nFramesBefore))
 	{
-	    if((log.frame(randomFrame).referee().command() != SSL_Referee_Command_HALT) && (log.frame(randomFrame).referee().command() != SSL_Referee_Command_STOP))
+	    if((log.frame(randomFrame).referee().command() != SSL_Referee_Command_HALT) && (log.frame(randomFrame).referee().command() != SSL_Referee_Command_STOP) && (log.frame(randomFrame).referee().command() != SSL_Referee_Command_TIMEOUT_BLUE)&& (log.frame(randomFrame).referee().command() != SSL_Referee_Command_TIMEOUT_YELLOW))
 	    {
 		bool _valid = true;
 		for(int i=0; i<logsInfo::logSize; i++)

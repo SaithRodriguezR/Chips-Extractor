@@ -10,8 +10,8 @@ public:
 
 namespace logsInfo
 {
-    static const int nFramesAfter		= 9; 
-    static const int nFramesBefore              = 10; 
+    static const int nFramesBefore		= 9; 
+    static const int nFramesAfter              = 10; 
     static const int logSize 			= 199;
     static const SLog logs[logSize]= { 	{QString("/STOxs-ZJUNlict/STOxs-ZJUNlict1"), 5173}, 
 					{QString("/STOxs-ZJUNlict/STOxs-ZJUNlict1"), 5310},

@@ -124,7 +124,7 @@ void ChipsLogsExtractor::extractInfo(int n, STOxs_Logfile log, QString filename,
     while(!valid)
     {
 	randomFrame = rand()%log.frame_size();
-	if((randomFrame > logsInfo::nFramesAfter) && (randomFrame < log.frame_size()-logsInfo::nFramesBefore))
+	if((randomFrame > logsInfo::nFramesBefore) && (randomFrame < log.frame_size()-logsInfo::nFramesAfter))
 	{
 	    if((log.frame(randomFrame).referee().command() != SSL_Referee_Command_HALT) && (log.frame(randomFrame).referee().command() != SSL_Referee_Command_STOP) && (log.frame(randomFrame).referee().command() != SSL_Referee_Command_TIMEOUT_BLUE)&& (log.frame(randomFrame).referee().command() != SSL_Referee_Command_TIMEOUT_YELLOW))
 	    {
@@ -133,7 +133,7 @@ void ChipsLogsExtractor::extractInfo(int n, STOxs_Logfile log, QString filename,
 		{
 		    if(frameList[i] != -1)
 		    {
-			if((randomFrame < (frameList[i]-(logsInfo::nFramesAfter+logsInfo::nFramesBefore))) && (randomFrame > (frameList[i]+(logsInfo::nFramesAfter+logsInfo::nFramesBefore))))
+			if((randomFrame < (frameList[i]-(logsInfo::nFramesAfter+logsInfo::nFramesAfter))) && (randomFrame > (frameList[i]+(logsInfo::nFramesBefore+logsInfo::nFramesAfter))))
 			{
 			    _valid &= false;
 			}
@@ -151,8 +151,8 @@ void ChipsLogsExtractor::extractInfo(int n, STOxs_Logfile log, QString filename,
     {
 	frameList[*k] = randomFrame;
 	*k++;
-	initFrame = randomFrame - logsInfo::nFramesAfter;
-	endFrame = randomFrame + logsInfo::nFramesBefore;
+	initFrame = randomFrame - logsInfo::nFramesBefore;
+	endFrame = randomFrame + logsInfo::nFramesAfter;
 	for(int i=initFrame; i<=endFrame; i++)
 	{
 	    _logNoChip.add_frame()->CopyFrom(log.frame(i));

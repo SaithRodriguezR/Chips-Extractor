@@ -51,7 +51,7 @@ void ChipsLogsExtractor::process()
     {
 	if(_currentFilename != logsInfo::logs[i].logFilename)
 	{
-	    log = loadLog(QString("../../Logs/RoboCup2015") + logsInfo::logs[i].logFilename + QString(".log"));
+	    log = loadLog(QString("../../Logs/BallSpeedTest") + logsInfo::logs[i].logFilename + QString(".log"));
 	    _currentFilename = logsInfo::logs[i].logFilename;
 	   memset(frameList, -1, sizeof(int)*logsInfo::logSize);
 	    k=0;
@@ -108,14 +108,14 @@ STOxs_Logfile ChipsLogsExtractor::loadLog(QString filename)
 
 void ChipsLogsExtractor::extractInfo(int n, STOxs_Logfile log, QString filename, int frame, int frameList[], int *k)
 {
-    int initFrame = frame - logsInfo::nFramesAfter;
-    int endFrame = frame + logsInfo::nFramesBefore;
+    int initFrame = frame - logsInfo::nFramesBefore;
+    int endFrame = frame + logsInfo::nFramesAfter;
     printf("Extracting info to %s: frames: %d to %d\n", filename.toStdString().c_str(), initFrame, endFrame);
     for(int i=initFrame; i<=endFrame; i++)
     {
 	_logChip.add_frame()->CopyFrom(log.frame(i));
 	QString str;
-	str.sprintf("%d %d %f %f %f\n", n, log.frame(i).balltracking().ball().enable(), log.frame(i).balltracking().ball().pos().x(), log.frame(i).balltracking().ball().pos().y(), log.frame(i).world().ball().speed());
+	str.sprintf("%d %f %d %f %f %f\n", n, log.frame(i).world().tcapture(), log.frame(i).balltracking().ball().enable(), log.frame(i).balltracking().ball().pos().x(), log.frame(i).balltracking().ball().pos().y(), log.frame(i).world().ball().speed());
 	outputChip.write(str.toStdString().c_str());
     }
     bool valid = false;

@@ -27,6 +27,7 @@
 
 #include <src/common/logsinfo.h>
 #include "messages_stoxs_logfile.pb.h"
+#include <time.h>
 
 class ChipsLogsExtractor : public QObject
 {

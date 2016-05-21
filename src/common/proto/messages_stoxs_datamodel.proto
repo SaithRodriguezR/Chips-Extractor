@@ -1,39 +1,29 @@
-message MPoint2 {
+message MVector2 {
   optional double x = 1;
   optional double y = 2;
 }
 
-message MPoint3 {
+message MVector3 {
   optional double x = 1;
   optional double y = 2;
   optional double w = 3;
 }
 
-message MVel2 {
-  optional double vx = 1;
-  optional double vy = 2;
-}
-
-message MVel3 {
-  optional double vx = 1;
-  optional double vy = 2;
-  optional double vw = 3;
-}
-
 message MTrajectory {
   optional bool enable = 1;
-  repeated MPoint2 pos = 2;
+  repeated MVector2 pos = 2;
 }
 
 message MRobot {
   optional bool enable		= 1;
   optional double conf		= 2;
   optional double camConf	= 3;
-  optional MPoint2 pos		= 4;
+  optional MVector2 pos		= 4;
   optional double w		= 5;
   optional double speed		= 6;
-  optional MVel3 vel		= 7;
-  optional bool ir		= 8;
+  optional MVector3 vel		= 7;
+  optional double acc		= 8;
+  optional bool ir		= 9;
 }
 
 message MTeam {
@@ -45,7 +35,7 @@ message MBall {
   optional bool enable		= 1;
   optional double conf		= 2;
   optional double camConf	= 3;
-  optional MPoint2 pos		= 4;
+  optional MVector2 pos		= 4;
   optional uint32 camId		= 5;
 }
 
@@ -77,18 +67,19 @@ message MRobotTracking {
 }
 
 message MWBall {
-  optional MPoint2 pos			= 1;
+  optional MVector2 pos			= 1;
   optional int32 camId			= 2;
   optional double speed			= 3;
   optional double alpha			= 4;
-  optional MVel2 vel			= 5;
-  optional MTrajectory tray		= 6;
-  optional MTrajectory trayNoFilter	= 7;
-  optional MTrajectory trayParabolic 	= 8;
-  optional bool isFastBall		= 9;
-  optional MTrajectory trayFastBall 	= 10;
-  optional bool isFlying		= 11;
-  optional MPoint2 landingPoint		= 12;
+  optional MVector2 vel			= 5;
+  optional double acc			= 6;
+  optional MTrajectory tray		= 7;
+  optional MTrajectory trayNoFilter	= 8;
+  optional MTrajectory trayParabolic 	= 9;
+  optional bool isFastBall		= 10;
+  optional MTrajectory trayFastBall 	= 11;
+  optional bool isFlying		= 12;
+  optional MVector2 landingPoint	= 13;
 }
 
 message MWorld {
@@ -101,7 +92,7 @@ message MWorld {
 
 message MCircle {
   optional bool enable		= 1;
-  optional MPoint2 center 	= 2;
+  optional MVector2 center 	= 2;
   optional double radius 	= 3;
   optional double r		= 4;
   optional double g		= 5;
@@ -110,8 +101,8 @@ message MCircle {
 
 message MLine {
   optional bool enable		= 1;
-  optional MPoint2 p0 		= 2;
-  optional MPoint2 p1 		= 3;
+  optional MVector2 p0 		= 2;
+  optional MVector2 p1 		= 3;
   optional double r		= 4;
   optional double g		= 5;
   optional double b		= 6;
